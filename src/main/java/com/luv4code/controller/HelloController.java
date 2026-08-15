@@ -15,9 +15,9 @@ public class HelloController {
         return ResponseEntity.ok("Hello CI/CD with Jenkins");
     }
 
-    @GetMapping("/greet/{message}")
-    public ResponseEntity<String> greet(@PathVariable String message){
-        return ResponseEntity.ok("Hello, "+message);
+    @GetMapping("/greet/{country}")
+    public ResponseEntity<String> greet(@PathVariable String country){
+        return ResponseEntity.ok("Hello, Welcome to "+country);
     }
 
 }
