@@ -1,0 +1,38 @@
+pipeline {
+    agent any
+
+    tools{
+        maven "Maven-3"
+    }
+
+    stages {
+        stage('Cloning Github Repository') {
+            steps {
+                echo 'clone github repo'
+                git branch: 'main', url: 'https://github.com/madhav-codehub/CI-CD-Java-Project.git'
+            }
+        }
+        stage('Build Artifact'){
+            steps{
+                echo 'Building Artifact'
+                sh 'mvn clean package'
+            }
+        }
+        stage('Docker Build'){
+            steps{
+                echo 'Docker Build'
+                sh 'docker build -t madhav201994/cicd-app .'
+            }
+        }
+        stage('Deploy Application'){
+            steps{
+                echo 'Creating container and deploy'
+                sh '''
+                    docker stop cicd-app || true
+                    docker rm cicd-app || true
+                    docker run -d --name cicd-app -p 9001:9001 madhav201994/cicd-app:latest
+                '''
+            }
+        }
+    }
+}
